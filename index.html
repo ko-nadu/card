@@ -112,12 +112,6 @@
     .info { padding: clamp(36px, 4vw, 48px); }
     .qrside { border-top: none; border-left: 1px solid var(--line); min-width: 280px; }
   }
-
-  /* 홈 화면 설치 단추 (기본 숨김 — 설치 가능 이벤트가 올 때만 표시) */
-  #installBtn { display: none; position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 20;
-    padding: 12px 22px; border: 0; border-radius: 999px; background: var(--navy); color: #fff;
-    font-family: inherit; font-weight: 700; font-size: .95rem; line-height: 1; box-shadow: 0 6px 18px rgba(31,45,89,.3); cursor: pointer; }
-  #installBtn.show { display: block; }
 </style>
 </head>
 <body>
@@ -452,24 +446,6 @@ var qrcode=function(){var t=function(t,r){var e=t,n=g[r],o=null,i=0,a=null,u=[],
   </script>
 <script>
 if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {})); }
-</script>
-  <button id="installBtn" type="button">홈 화면에 설치</button>
-<script>
-(function () {
-  var btn = document.getElementById('installBtn'), deferred = null;
-  var installed = (window.matchMedia && matchMedia('(display-mode: standalone)').matches) || navigator.standalone === true;
-  window.addEventListener('beforeinstallprompt', function (e) {
-    e.preventDefault();
-    if (installed) return;
-    deferred = e; btn.classList.add('show');
-  });
-  btn.addEventListener('click', function () {
-    if (!deferred) return;
-    var ev = deferred; deferred = null; btn.classList.remove('show');
-    ev.prompt();
-  });
-  window.addEventListener('appinstalled', function () { deferred = null; btn.classList.remove('show'); });
-})();
 </script>
 </body>
 </html>
